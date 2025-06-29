@@ -1,0 +1,374 @@
+/* Grundlegende Resets und Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+:root {
+    --stroke: #48EF89;
+    --bgColor: #101915;
+    --bgColorLight: #1B2D21;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace; /* Hacker-Schriftart */
+    background-color: #1a1a1a; /* Dunkler Hintergrund */
+    color: #48EF89; /* Grüne Schrift */
+    height: 100vh;
+    overflow: hidden;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+}
+
+.header {
+    background-color: #000000; /* Schwarzer Header */
+    color: #00ff00; /* Grüne Schrift */
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 255, 0, 0.2); /* Grüner Schatten */
+    border-bottom: 2px solid #004d00; /* Grüner Rand */
+}
+
+.level-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.level-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.gem-count {
+    background: #ffd700;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #008000; /* Dunkelgrüner Button */
+    color: #00ff00; /* Grüne Schrift */
+    border: 1px solid #00ff00; /* Grüner Rand */
+}
+
+.btn-primary:hover {
+    background-color: #00ff00; /* Helleres Grün beim Hover */
+    color: #000000; /* Schwarze Schrift beim Hover */
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #b8860b; /* Dunkelbernstein */
+    color: #ffd700; /* Helleres Bernstein */
+    border: 1px solid #ffd700;
+    text-shadow: 0 0 3px #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.btn-secondary:hover {
+    background-color: #ffd700;
+    color: #000000;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.game-area {
+    flex: 1;
+    min-height: 40vh;
+    background-color: #000000; /* Schwarzer Hintergrund */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); /* Leuchteffekt */
+    border: 2px solid #004d00; /* Grüner Rand */
+}
+
+.game-canvas {
+    width: 100%;
+    height: 100%;
+    background-color: #0a0a0a; /* Etwas hellerer Schwarzton für Canvas */
+    border-radius: 0.375rem;
+    border: 1px solid #00ff00; /* Grüner Rand */
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3); /* Innenliegender Schatten */
+    /* Rastereffekt für den Canvas */
+    background-image: linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.3) 25%, rgba(0, 255, 0, 0.3) 26%, transparent 27%),
+    linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.3) 25%, rgba(0, 255, 0, 0.3) 26%, transparent 27%);
+    background-size: 25px 25px; /* Größe der Rasterzellen */
+    position: relative;
+    overflow: hidden;
+}
+
+.character {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #e74c3c;
+    border-radius: 50%;
+    border: 3px solid #c0392b;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.character::before {
+    content: '👤';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+}
+
+.gem {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    border-radius: 50%;
+    border: 2px solid #ffb347;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    animation: gemGlow 2s ease-in-out infinite;
+}
+
+.gem::before {
+    content: '💎';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+
+@keyframes gemGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+    }
+}
+
+.blockly-area {
+    width: 100%;
+    height: 40vh;
+    background: black;
+    border-top: 3px solid #34495e;
+    transition: transform 0.3s ease;
+}
+
+.toggle-panel {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-panel:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.code-preview {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    max-width: 200px;
+    backdrop-filter: blur(10px);
+}
+
+
+/* Blockly spezifische Anpassungen für den Hacker-Look */
+.blocklyToolboxDiv {
+    background-color: #0a0a0a !important; /* Dunklere Toolbox */
+    color: #00ff00 !important; /* Grüne Schrift */
+    border-right: 1px solid #004d00 !important;
+}
+
+.blocklyToolboxContents {
+    background-color: #0a0a0a !important;
+}
+
+.blocklyTreeRow {
+    color: #00ff00 !important;
+}
+
+.blocklyTreeRow.blocklyTreeSelected {
+    background-color: rgba(0, 255, 0, 0.2) !important;
+    color: #00ff00 !important;
+}
+
+.blocklyText {
+    fill: #00ff00 !important; /* Text in den Blöcken grün */
+}
+
+.geras-renderer.classic-theme .blocklySelected>.blocklyPath,
+.blocklyPath,
+.blocklyBlockPath {
+    stroke: var(--stroke);
+    fill: var(--bgColor);
+}
+.blocklyBlockBackground {
+    fill: #0a0a0a !important; /* Hintergrund der Blöcke dunkler */
+    stroke: #00ff00 !important; /* Rand der Blöcke grün */
+    stroke-width: 1px !important;
+}
+
+.blocklyBlockBackground.blocklySelected {
+    fill: #222222 !important; /* Ausgewählter Block dunkler */
+    stroke: #00ff00 !important;
+    stroke-width: 2px !important;
+}
+
+.blocklyFlyoutBackground {
+    fill: #111111 !important; /* Flyout-Hintergrund noch dunkler */
+    stroke: #004d00 !important;
+}
+
+/* Neuer Stil für den Blockly-Workspace-Hintergrund */
+.blocklySvg {
+    background-color: #000000 !important; /* Sicherstellen, dass der Arbeitsbereich schwarz ist */
+}
+
+/* Angepasste Grid-Linien für einen stärkeren grünen Effekt */
+.blocklyGridPath { /* Grid-Linien sichtbar machen */
+    stroke: #00ff00 !important; /* Solides Grün */
+    stroke-opacity: 1 !important; /* Opazität auf 1 setzen für durchgezogene Linien */
+    stroke-width: 1px !important; /* Liniendicke anpassen, wenn nötig */
+}
+
+.blocklyGridLine { /* Fallback für ältere Grid-Implementierungen */
+    stroke: #00ff00 !important;
+    stroke-opacity: 1 !important;
+    stroke-width: 1px !important;
+}
+
+.blocklyScrollbarHandle {
+    fill: #004d00;
+}
+
+/* Tablet und Desktop Anpassungen */
+@media (min-width: 768px) {
+    .main-content {
+        flex-direction: row;
+    }
+
+    .game-area {
+        min-height: auto;
+        border-bottom: none;
+        border-right: 3px solid #34495e;
+    }
+
+    .blockly-area {
+        width: 50%;
+        height: 100%;
+        border-top: none;
+        border-left: 3px solid #34495e;
+    }
+
+    .toggle-panel {
+        display: none;
+    }
+
+    .level-title {
+        font-size: 1.5rem;
+        font-weight: 700; /* Fetter */
+        text-shadow: 0 0 5px #00ff00; /* Leuchteffekt */
+    }
+
+    .character {
+        width: 50px;
+        height: 50px;
+    }
+
+    .character::before {
+        font-size: 24px;
+    }
+
+    .gem {
+        width: 40px;
+        height: 40px;
+    }
+
+    .gem::before {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .blockly-area {
+        width: 40%;
+    }
+
+    .code-preview {
+        max-width: 300px;
+        font-size: 14px;
+    }
+}
+
+.panel-collapsed {
+    /*transform: translateY(calc(100% - 60px));*/
+}
+
+.panel-expanded {
+    /*transform: translateY(0);*/
+}
+
+.panel-minimized {
+    /*transform: translateY(calc(100% - 80px));*/
+}
