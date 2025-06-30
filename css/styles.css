@@ -120,60 +120,6 @@ body {
     overflow: hidden;
 }
 
-.character {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: #e74c3c;
-    border-radius: 50%;
-    border: 3px solid #c0392b;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    transition: all 0.5s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.character::before {
-    content: '👤';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-}
-
-.gem {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: linear-gradient(45deg, #ffd700, #ffed4e);
-    border-radius: 50%;
-    border: 2px solid #ffb347;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-    animation: gemGlow 2s ease-in-out infinite;
-}
-
-.gem::before {
-    content: '💎';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-}
-
-@keyframes gemGlow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-    }
-    50% {
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
-    }
-}
 
 .blockly-area {
     flex: 4;
@@ -186,26 +132,6 @@ body {
 #blocklyDiv {
     width: 100%;
     height: 100%;
-}
-
-.toggle-panel {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 20px 20px 0 0;
-    cursor: pointer;
-    z-index: 1000;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.toggle-panel:hover {
-    background: rgba(0, 0, 0, 0.9);
 }
 
 .code-preview {
@@ -292,6 +218,11 @@ body {
     fill: #004d00;
 }
 
+.level-title {
+    font-size: 0.9rem;
+    text-shadow: 0 0 5px #00ff00; /* Leuchteffekt */
+}
+
 /* Tablet und Desktop Anpassungen */
 @media (min-width: 768px) {
     .main-content {
@@ -316,27 +247,9 @@ body {
     }
 
     .level-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 700; /* Fetter */
         text-shadow: 0 0 5px #00ff00; /* Leuchteffekt */
-    }
-
-    .character {
-        width: 50px;
-        height: 50px;
-    }
-
-    .character::before {
-        font-size: 24px;
-    }
-
-    .gem {
-        width: 40px;
-        height: 40px;
-    }
-
-    .gem::before {
-        font-size: 20px;
     }
 }
 
