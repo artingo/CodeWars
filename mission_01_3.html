@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mission 01_3 - Drag, type & execute</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blockly.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blocks.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/javascript.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="game-container">
+  <header class="header">
+    <div class="level-info">
+      <ol class="level-title">
+        <li>Drag the code block from the toolbox to the grid.</li>
+        <li>Click inside the “ ” block and type: Nightingale</li>
+        <li>Presse the "EXECUTE >" button.</li>
+      </ol>
+    </div>
+    <div class="controls">
+      <button class="btn btn-primary" onclick="runCode()">EXECUTE&nbsp;&gt;</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="blockly-area" id="blocklyArea">
+      <div id="blocklyDiv"></div>
+    </div>
+    <div class="game-area">
+      <div class="game-canvas" id="gameCanvas"></div>
+      <div class="code-preview" id="codePreview">
+        <pre id="console"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initBlockly() {
+    blocklyOptions.toolbox = `
+    <xml>
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text">
+            <field name="TEXT"></field>
+          </shadow>
+        </value>
+      </block>
+    </xml>`;
+    workspace = Blockly.inject('blocklyDiv', blocklyOptions)
+
+    Blockly.JavaScript['text_print'] = function (block) {
+      let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+      if (msg == "'Nightingale'") {
+        msg += '\nWelcome, Agent Cipher!'
+        // forward to next level
+        forward('mission_01_4.html')
+      } else {
+        msg = (msg == "''") ? 'Enter a password...' : msg + '\nWrong password! Try again...'
+      }
+      cout(msg)
+      return null
+    }
+  }
+</script>
+<script src="js/tools.js"></script>
+</body>
+</html>

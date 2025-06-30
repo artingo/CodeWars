@@ -38,7 +38,7 @@ body {
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     border-bottom: 2px solid #004d00; /* Grüner Rand */
 }
 
@@ -221,6 +221,7 @@ body {
 .level-title {
     font-size: 0.9rem;
     text-shadow: 0 0 5px #00ff00; /* Leuchteffekt */
+    margin-left: 2rem;
 }
 
 /* Tablet und Desktop Anpassungen */
@@ -249,7 +250,6 @@ body {
     .level-title {
         font-size: 1.2rem;
         font-weight: 700; /* Fetter */
-        text-shadow: 0 0 5px #00ff00; /* Leuchteffekt */
     }
 }
 
