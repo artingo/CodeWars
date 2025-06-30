@@ -1,54 +1,75 @@
-// Code ausführen
-function runCode() {
-  try {
-    eval(Blockly.JavaScript.workspaceToCode(workspace));
-  } catch (e) {
-    console.error('Error when executing the code:', e);
-    alert('Error when executing the code: ' + e.message);
-  }
+let workspace
+
+const blocklyOptions = {
+  zoom: {
+    controls: true,
+    startScale: 1.0,
+    maxScale: 2,
+    minScale: 0.3,
+    scaleSpeed: 1.2
+  },
+  trashcan: true,
+  sounds: true,
+  grid: {
+    spacing: 20,
+    length: 3,
+    colour: '#00ff00',
+    snap: true
+  },
+  horizontalLayout: true,
+  toolboxPosition: 'start'
 }
 
-// Panel für Mobile umschalten
-function togglePanel() {
-  const panel = document.getElementById('blocklyArea');
-  const toggleText = document.getElementById('toggleText');
-
-  if (panel.classList.contains('panel-collapsed')) {
-    panel.classList.remove('panel-collapsed');
-    panel.classList.add('panel-expanded');
-    toggleText.textContent = '🎮 Minimieren';
-  } else if (panel.classList.contains('panel-expanded')) {
-    panel.classList.remove('panel-expanded');
-    panel.classList.add('panel-minimized');
-    toggleText.textContent = '📝 Code Editor';
+// Code ausführen
+function runCode() {
+  const topBlocks = workspace.getTopBlocks(false)
+  if (topBlocks.length === 0) {
+    cout('[Error] No code to execute!')
   } else {
-    panel.classList.remove('panel-minimized');
-    panel.classList.add('panel-expanded');
-    toggleText.textContent = '🎮 Minimieren';
+    try {
+      eval(Blockly.JavaScript.workspaceToCode(workspace))
+    } catch (e) {
+      console.error('Error when executing the code:', e)
+      cout('Error when executing the code:\n' + e.message)
+    }
   }
 }
 
 // Responsive Panel-Handling
 function handleResize() {
-  const panel = document.getElementById('blocklyArea');
+  const panel = document.getElementById('blocklyArea')
   if (window.innerWidth >= 768) {
-    panel.className = 'blockly-area panel-expanded';
+    panel.className = 'blockly-area panel-expanded'
   }
 }
 
 // Warten bis Blockly vollständig geladen ist
 function waitForBlockly() {
   if (typeof Blockly !== 'undefined' && Blockly.Blocks && Blockly.JavaScript) {
-    initBlockly();
-    handleResize();
+    initBlockly()
+    handleResize()
   } else {
-    setTimeout(waitForBlockly, 100);
+    setTimeout(waitForBlockly, 100)
   }
 }
 
-// Initialisierung
-window.addEventListener('load', function() {
-  waitForBlockly();
-});
+function cout(msg) {
+  const consoleOut = document.getElementById('console')
+  if (consoleOut) {
+    consoleOut.textContent = msg + '\n'
+    consoleOut.scrollTop = consoleOut.scrollHeight
+  }
+}
 
-window.addEventListener('resize', handleResize);
+function forward(url) {
+  setTimeout(() => {
+    location.href = url
+  }, 4000)
+}
+
+// Initialisierung
+window.addEventListener('load', function () {
+  waitForBlockly()
+})
+
+window.addEventListener('resize', handleResize)

@@ -43,26 +43,6 @@ body {
 }
 
 
-.level-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.level-title {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.gem-count {
-    background: #ffd700;
-    color: #333;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
 .controls {
     display: flex;
     gap: 10px;
@@ -202,6 +182,10 @@ body {
     background: black;
     border-top: 3px solid #34495e;
     transition: transform 0.3s ease;
+}
+#blocklyDiv {
+    width: 100%;
+    height: 100%;
 }
 
 .toggle-panel {

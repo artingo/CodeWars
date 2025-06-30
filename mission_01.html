@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Blockly Mobile Layout</title>
+  <title>Mission 01 - Secret Message</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blockly.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blocks.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/javascript.min.js"></script>
-    <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <div class="game-container">
   <header class="header">
     <div class="level-info">
       <div class="level-title">
-        Initiation of training...<br/>
-        Print the following text:<br/>
-        "Welcome, Agent Cipher."
+        Use a Text block to type the login: <br>
+        "Nightingale" <br/>
+        Connect this to a "Print" block to display it.
       </div>
     </div>
     <div class="controls">
@@ -25,8 +25,8 @@
   </header>
 
   <div class="main-content">
-    <div class="blockly-area panel-minimized" id="blocklyArea">
-      <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+    <div class="blockly-area" id="blocklyArea">
+      <div id="blocklyDiv"></div>
     </div>
     <div class="game-area">
       <div class="game-canvas" id="gameCanvas"></div>
@@ -38,49 +38,27 @@
 </div>
 
 <script>
-  const consoleOut = document.getElementById('console');
-  let workspace;
+function initBlockly() {
+  blocklyOptions.toolbox = `
+    <xml>
+      <block type="text_print"></block>
+      <block type="text"></block>
+    </xml>`;
+  workspace = Blockly.inject('blocklyDiv', blocklyOptions)
 
-  function initBlockly() {
-    const toolbox = `
-      <xml  id="toolbox" style="display: none;">
-        <block type="text_print" colour="%{BKY_TEXTS_HUE}"></block>
-        <block type="text"></block>
-      </xml>`;
-
-    workspace = Blockly.inject('blocklyDiv', {
-      toolbox: toolbox,
-      zoom: {
-        controls: true,
-        // wheel: true,
-        startScale: 1.0,
-        maxScale: 3,
-        minScale: 0.3,
-        scaleSpeed: 1.2
-      },
-      trashcan: true,
-      sounds: true,
-      grid: {
-        spacing: 20,
-        length: 3,
-        colour: '#00ff00', // Direkte Farbe für Grid-Linien
-        snap: true
-      },
-      // renderer: 'classic'
-    });
-
-    Blockly.JavaScript['text_print'] = function (block) {
-      // Wenn nichts verbunden ist, wird ein leerer String verwendet.
-      const msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''";
-      consoleOut.textContent = msg + '\n';
-
-      if (msg != "'Welcome, Agent Cipher.'") {
-        consoleOut.textContent += '[Error!] Try again...\n';
-      }
-      consoleOut.scrollTop = consoleOut.scrollHeight;
-      return null;
-    };
+  Blockly.JavaScript['text_print'] = function (block) {
+    let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+    if (msg == "'Nightingale'") {
+      msg += '\nWelcome, Agent Cipher!'
+      // forward to next level
+      forward('mission_02.html')
+    } else {
+      msg = (msg == "''") ? 'Enter a password...' : msg + '\nWrong password! Try again...'
+    }
+    cout(msg)
+    return null
   }
+}
 </script>
 <script src="js/tools.js"></script>
 </body>

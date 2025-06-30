@@ -14,8 +14,9 @@
   <header class="header">
     <div class="level-info">
       <div class="level-title">
-        Mission 02<br/>
-        Use a "create text with" block to create the message 'Welcome, Agent' + 'Cipher!".
+        Use a "create text with" block. In the first slot, put the text "Agent ID:". 
+        In the second slot, put the text "Nightingale".
+        Print the combined message.
       </div>
     </div>
     <div class="controls">
@@ -25,7 +26,7 @@
 
   <div class="main-content">
     <div class="blockly-area panel-minimized" id="blocklyArea">
-      <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+      <div id="blocklyDiv"></div>
     </div>
     <div class="game-area">
       <div class="game-canvas" id="gameCanvas"></div>
@@ -37,49 +38,28 @@
 </div>
 
 <script>
-  const consoleOut = document.getElementById('console');
-  let workspace;
+function initBlockly() {
+  blocklyOptions.toolbox = `
+    <xml>
+      <block type="text_print"></block>
+      <block type="text_join"></block>
+      <block type="text"></block>
+    </xml>`
+  workspace = Blockly.inject('blocklyDiv', blocklyOptions)
 
-  function initBlockly() {
-    const toolbox = `
-      <xml >
-        <block type="text_print"></block>
-        <block type="text"></block>
-        <block type="text_join"></block>
-      </xml>`;
-
-    workspace = Blockly.inject('blocklyDiv', {
-      toolbox: toolbox,
-      zoom: {
-        controls: true,
-        startScale: 0.7,
-        maxScale: 3,
-        minScale: 0.3,
-        scaleSpeed: 1.2
-      },
-      trashcan: true,
-      sounds: true,
-      grid: {
-        spacing: 20,
-        length: 3,
-        colour: '#00ff00', // Direkte Farbe für Grid-Linien
-        snap: true
-      }
-    });
-
-    Blockly.JavaScript['text_print'] = function (block) {
-      // Wenn nichts verbunden ist, wird ein leerer String verwendet.
-      const msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''";
-      consoleOut.textContent = msg + '\n';
-      console.log(msg);
-
-      if (msg != "'Welcome, Agent' + 'Cipher!'") {
-        consoleOut.textContent += '[Error!] Try again...\n';
-      }
-      consoleOut.scrollTop = consoleOut.scrollHeight;
-      return null;
-    };
+  Blockly.JavaScript['text_print'] = function (block) {
+    let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+    if (msg == "'Agent ID:' + 'Nightingale'") {
+      msg += '\nAgent ID authorized!'
+      // forward to next level
+      // forward('mission_03.html')
+    } else {
+      msg = (msg == "''") ? 'Enter the proper Agent ID...' : msg + '\nWrong Agent ID! Try again...'
+    }
+    cout(msg)
+    return null
   }
+}
 </script>
 <script src="js/tools.js"></script>
 </body>
