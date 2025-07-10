@@ -40,28 +40,30 @@
 </div>
 
 <script>
-  function initBlockly() {
-    blocklyOptions.toolbox = `
-    <xml>
-      <block type="text_print"></block>
-      <block type="text"></block>
-    </xml>`;
-    workspace = Blockly.inject('blocklyDiv', blocklyOptions)
+function initBlockly() {
+  blocklyOptions.toolbox = `
+  <xml>
+    <block type="text_print"></block>
+    <block type="text_join"></block>
+    <block type="text"></block>
+  </xml>`
+  workspace = Blockly.inject('blocklyDiv', blocklyOptions)
 
-    Blockly.JavaScript['text_print'] = function (block) {
-      let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
-      if (msg == "'Nightingale'") {
-        msg += '\nWelcome, Agent Cipher!'
-        // forward to next level
-        forward('mission_02.html')
-      } else {
-        msg = (msg == "''") ? 'Enter a password...' : msg + '\nWrong password! Try again...'
-      }
-      cout(msg)
-      return null
+  Blockly.JavaScript['text_print'] = function (block) {
+    let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+    if (msg == "'Agent ID:' + 'Nightingale'") {
+      msg += '\nAgent ID authorized!'
+      // forward to next level
+      // forward('mission_03.html')
+    } else {
+      msg = (msg == "''") ? 'Enter the proper Agent ID...' : msg + '\nWrong Agent ID! Try again...'
     }
+    cout(msg)
+    return null
   }
+}
 </script>
 <script src="js/tools.js"></script>
 </body>
 </html>
+@b0n@70r!%

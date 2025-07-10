@@ -49,6 +49,12 @@ function initBlockly() {
   workspace = Blockly.inject('blocklyDiv', blocklyOptions)
 
   Blockly.JavaScript['text_print'] = function (block) {
+    const userName = document.getElementById('userName').value
+    console.log('userName: ' + userName)
+    if (userName == '' || userName != 'Agent Cypher') {
+      cout('Enter the proper username...')
+      return null
+    }
     let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
     if (msg == "'Agent ID:' + 'Nightingale'") {
       msg += '\nAgent ID authorized!'

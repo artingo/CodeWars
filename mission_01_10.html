@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mission 01_10 - read user input</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blockly.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blocks.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/javascript.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="game-container">
+  <header class="header">
+    <div class="level-info">
+      <ol class="level-title">
+        <li>Enter correct username: Agent Cypher</li>
+        <li>Press "EXECUTE >" button.</li>
+      </ol>
+    </div>
+    <div class="controls">
+      <button class="btn btn-primary" onclick="runCode()">EXECUTE&nbsp;&gt;</button>
+      <label for="userName">Username:</label>
+      <input type="text" id="userName" placeholder="Enter your username" autofocus>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="blockly-area" id="blocklyArea">
+      <div id="blocklyDiv"></div>
+    </div>
+    <div class="game-area">
+      <div class="game-canvas" id="gameCanvas"></div>
+      <div class="code-preview" id="codePreview">
+        <pre id="console"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+Blockly.Blocks['get_html_input_value'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField("userName:")
+      .appendField(new Blockly.FieldTextInput("userName"), "INPUT_ID");
+    this.setOutput(true, 'String');
+    this.setColour(290);
+    this.setTooltip("Reads the current value from an HTML input field on the page.");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript['get_html_input_value'] = function(block) {
+  let inputId = block.getFieldValue('INPUT_ID');
+  let code = document.getElementById(inputId).value;
+  return [`'${code}'`, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+function initBlockly() {
+  blocklyOptions.toolbox = `
+  <xml>
+    <block type="text_print"></block>
+    <block type="text_join"></block>
+    <block type="text"></block>
+    <block type="get_html_input_value"></block>
+  </xml>`
+  workspace = Blockly.inject('blocklyDiv', blocklyOptions)
+
+  let startBlocks = `
+    <xml>
+      <block type="text_print">
+        <value name="TEXT">
+          <shadow type="text_join">
+            <mutation items="2"></mutation>
+            <value name="ADD0">
+              <shadow type="text">
+                <field name="TEXT">Hello, </field>
+              </shadow>
+            </value>
+            <value name="ADD1">
+              <shadow type="get_html_input_value">
+                <field name="INPUT_ID">userName</field>
+              </shadow>
+            </value>
+          </shadow>
+        </value>
+      </block>
+    </xml>`;
+  Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(startBlocks), workspace);
+  workspace.scrollCenter();
+  
+  Blockly.JavaScript['text_print'] = function (block) {
+    const userName = document.getElementById('userName').value
+    if (userName == '' || userName != 'Agent Cypher') {
+      cout('Enter the proper username...')
+      return null
+    }
+    
+    let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+    if (msg == `'Hello, ' + 'Agent Cypher'`) {
+      msg += '\nWelcome, Agent Cipher!'
+      forward('mission_02.html')
+    } 
+    cout(msg)
+    return null
+  }
+}
+</script>
+<script src="js/tools.js"></script>
+</body>
+</html>
+@b0n@70r!%

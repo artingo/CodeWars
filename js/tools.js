@@ -17,7 +17,7 @@ const blocklyOptions = {
     snap: true
   },
   horizontalLayout: true,
-  toolboxPosition: 'start'
+  // toolboxPosition: 'start'
 }
 
 // Code ausführen
