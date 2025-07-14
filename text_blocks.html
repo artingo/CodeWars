@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mission 01_20 - Drag, connect, type & execute</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blockly.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/blocks.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blockly/9.3.3/javascript.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="game-container">
+  <header class="header">
+    <div class="level-info">
+      <ol class="level-title">
+        <li>This file contains all "text" blocks.</li>
+        <li>Remove unnecessarry blocks.</li>
+        <li>Add your instructions here.</li>
+        <li>Step 4</li>
+        <li>Step 5</li>
+        <li>Presse the "EXECUTE >" button.</li>
+      </ol>
+    </div>
+    <div class="controls">
+      <button class="btn btn-primary" onclick="runCode()">EXECUTE&nbsp;&gt;</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="blockly-area" id="blocklyArea">
+      <div id="blocklyDiv"></div>
+    </div>
+    <div class="game-area">
+      <div class="game-canvas" id="gameCanvas"></div>
+      <div class="code-preview" id="codePreview">
+        <pre id="console"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initBlockly() {
+    blocklyOptions.toolbox = `
+    <xml>
+      <block type="text_print"></block>
+      <block type="text_create_join_container"></block>
+      <block type="text_join"></block>
+      <block type="text"></block>
+      <block type="text_length"></block>
+      <block type="text_create_join_item"></block>
+      <block type="text_append"></block>
+      <block type="text_isEmpty"></block>
+      <block type="text_indexOf"></block>
+      <block type="text_charAt"></block>
+    </xml>`
+    workspace = Blockly.inject('blocklyDiv', blocklyOptions)
+
+    let startBlocks = `
+    <xml>
+      <block type="text_print" x="70" y="70">
+        <value name="TEXT">
+          <shadow type="text_join">
+            <mutation items="2"></mutation>
+            <value name="ADD0">
+              <shadow type="text">
+                <field name="TEXT">Hello, </field>
+              </shadow>
+            </value>
+            <value name="ADD1">
+              <shadow type="text">
+                <field name="AGENT_NAME"></field>
+              </shadow>
+            </value>
+          </shadow>
+        </value>
+      </block>
+    </xml>`;
+    Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(startBlocks), workspace);
+    workspace.scrollCenter();
+    
+    Blockly.JavaScript['text_print'] = function (block) {
+      let msg = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_NONE) || "''"
+      if (msg == "'Hello, ' + 'Agent Cipher'") {
+        msg += '\nWelcome back, Agent Cipher!'
+        // forward to next level
+        forward('mission_02.html')
+      } else {
+        msg = (msg == "''") ? 'Enter a password...' : msg + '\nWrong password! Try again...'
+      }
+      cout(msg)
+      return null
+    }
+  }
+</script>
+<script src="js/tools.js"></script>
+</body>
+</html>
+@b0n@70r!%
